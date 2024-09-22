@@ -1,31 +1,41 @@
 "use client";
 
-import { media as wixMedia } from "@wix/sdk";
 import { useCartStore } from "@/hooks/useCartStore";
 import Image from "next/image";
+import { media as wixMedia } from "@wix/sdk";
+import { useWixClient } from "@/hooks/useWixClient";
+import { useRouter } from "next/navigation";
 
-const OrderPage = () => {
-  //   const { orderCart } = useCartStore();
-  const { cart } = useCartStore();
+const ViewCartPage = () => {
+  // TEMPORARY
+  // const cartItems = true;
 
-  //   console.log(orderCart);
+  const wixClient = useWixClient();
+
+  const { cart, isLoading, removeItem } = useCartStore();
+
+  const router = useRouter();
+
+  const handleCheckout = () => {
+    try {
+      router.push("/checkout/");
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   return (
     // <div className="w-max absolute p-4 rounded-md shadow-[0_3px_10px_rgb(0,0,0,0.2)] bg-white top-12 right-0 flex flex-col gap-6 z-20">
-    // <div>
-    // <div className="w-fit h-[calc(100vh-80px)] p-4 rounded-md shadow-[0_3px_10px_rgb(0,0,0,0.2)] bg-white top-12 right-0 flex flex-col gap-6 z-20">
     <div className="flex items-center justify-center">
       <div className="w-fit h-fit p-4 rounded-md border-8 border-gray-100 bg-white flex flex-col gap-6">
-        {/* {!orderCart.lineItems ? ( */}
         {!cart.lineItems ? (
           <div>Cart is empty</div>
         ) : (
           <>
-            <h2 className="text-xl">Order Information</h2>
+            <h2 className="text-xl">Shopping Cart</h2>
             {/* LIST */}
-            <div className="flex flex-col gap-8">
+            <div className="flex flex-col gap-8 h-64 overflow-auto">
               {/* ITEM */}
-              {/* {orderCart.lineItems.map((item) => ( */}
               {cart.lineItems.map((item) => (
                 <div className="flex gap-4" key={item._id}>
                   {item.image && (
@@ -70,13 +80,15 @@ const OrderPage = () => {
                       <span className="text-gray-500">
                         Qty. {item.quantity}
                       </span>
-                      {/* <span
-                      className="text-blue-500"
-                      style={{ cursor: isLoading ? "not-allowed" : "pointer" }}
-                      onClick={() => removeItem(wixClient, item._id!)}
-                    >
-                      Remove
-                    </span> */}
+                      <span
+                        className="text-blue-500"
+                        style={{
+                          cursor: isLoading ? "not-allowed" : "pointer",
+                        }}
+                        onClick={() => removeItem(wixClient, item._id!)}
+                      >
+                        Remove
+                      </span>
                     </div>
                   </div>
                 </div>
@@ -86,24 +98,20 @@ const OrderPage = () => {
             <div>
               <div className="flex items-center justify-between font-semibold">
                 <span className="">Subtotal</span>
-                {/* <span className="">{orderCart.subtotal.formattedAmount}</span> */}
                 <span className="">{cart.subtotal.formattedAmount}</span>
               </div>
               <p className="text-gray-500 text-sm mt-2 mb-4">
                 Shipping and taxes calculated at checkout.
               </p>
-              {/* <div className="flex justify-between text-sm">
-              <button className="rounded-md py-3 px-4 ring-1 ring-gray-300">
-                View cart
-              </button>
-              <button
-                className="rounded-md py-3 px-4 bg-black text-white disabled:cursor-not-allowed disabled:opacity-75"
-                disabled={isLoading}
-                onClick={handleCheckout}
-              >
-                Checkout
-              </button>
-            </div> */}
+              <div className="flex justify-between text-sm">
+                <button
+                  className="rounded-md py-3 px-4 bg-black text-white disabled:cursor-not-allowed disabled:opacity-75"
+                  disabled={isLoading}
+                  onClick={handleCheckout}
+                >
+                  Checkout
+                </button>
+              </div>
             </div>
           </>
         )}
@@ -112,4 +120,4 @@ const OrderPage = () => {
   );
 };
 
-export default OrderPage;
+export default ViewCartPage;
