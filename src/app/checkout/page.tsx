@@ -2,15 +2,21 @@
 
 import { useWixClient } from "@/hooks/useWixClient";
 import { useCartStore } from "@/hooks/useCartStore";
-import { useRouter } from "next/navigation";
+import { addOrder } from "@/lib/mongoActions";
+
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 const CheckoutPage = () => {
   const router = useRouter();
 
+  // const pathname = usePathname();
+  // const searchParams = useSearchParams();
+  // const { replace } = useRouter();
+
   const wixClient = useWixClient();
 
   // const { cart, setOrderCart, removeItem } = useCartStore();
-  // const { cart } = useCartStore();
+  const { cart, resetCounter } = useCartStore();
 
   const handlePayment = async () => {
     try {
@@ -27,7 +33,20 @@ const CheckoutPage = () => {
       // if (removePromises) {
       //   await Promise.all(removePromises);
       // }
-      router.push("/success/");
+
+      // const params = new URLSearchParams(searchParams);
+      // params.set("orderId", cart._id!.toString());
+      // replace(`${pathname}?${params.toString()}`);
+
+      const order = { ...cart };
+
+      await wixClient.currentCart.deleteCurrentCart();
+
+      resetCounter();
+
+      await addOrder(order, order._id?.toString());
+
+      router.push("/success/?orderId=" + order._id?.toString());
     } catch (err) {
       console.log(err);
     }

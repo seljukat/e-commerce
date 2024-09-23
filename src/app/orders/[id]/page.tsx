@@ -1,12 +1,21 @@
-"use client";
+// "use client";
 
+import { getOrder } from "@/lib/mongoActions";
 import { media as wixMedia } from "@wix/sdk";
-import { useCartStore } from "@/hooks/useCartStore";
+// import { useCartStore } from "@/hooks/useCartStore";
 import Image from "next/image";
 
-const OrderPage = () => {
+const OrderPage = async ({ params }: { params: { id: string } }) => {
   //   const { orderCart } = useCartStore();
-  const { cart } = useCartStore();
+  // const { cart } = useCartStore();
+
+  const id = params.id;
+
+  const orderRecord = await getOrder(id);
+
+  const order = orderRecord.order[0];
+
+  // console.log(order);
 
   //   console.log(orderCart);
 
@@ -17,7 +26,7 @@ const OrderPage = () => {
     <div className="flex items-center justify-center">
       <div className="w-fit h-fit p-4 rounded-md border-8 border-gray-100 bg-white flex flex-col gap-6">
         {/* {!orderCart.lineItems ? ( */}
-        {!cart.lineItems ? (
+        {!order.lineItems ? (
           <div>Cart is empty</div>
         ) : (
           <>
@@ -26,7 +35,7 @@ const OrderPage = () => {
             <div className="flex flex-col gap-8">
               {/* ITEM */}
               {/* {orderCart.lineItems.map((item) => ( */}
-              {cart.lineItems.map((item) => (
+              {order.lineItems.map((item) => (
                 <div className="flex gap-4" key={item._id}>
                   {item.image && (
                     <Image
@@ -87,7 +96,7 @@ const OrderPage = () => {
               <div className="flex items-center justify-between font-semibold">
                 <span className="">Subtotal</span>
                 {/* <span className="">{orderCart.subtotal.formattedAmount}</span> */}
-                <span className="">{cart.subtotal.formattedAmount}</span>
+                <span className="">{order.subtotal.formattedAmount}</span>
               </div>
               <p className="text-gray-500 text-sm mt-2 mb-4">
                 Shipping and taxes calculated at checkout.

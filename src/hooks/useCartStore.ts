@@ -8,6 +8,7 @@ type CartState = {
   isLoading: boolean;
   counter: number;
   getCart: (wixClient: WixClient) => void;
+  resetCounter: () => void;
   // setOrderCart: (cart: currentCart.Cart) => void;
   // deleteCart: (wixClient: WixClient) => void;
   addItem: (
@@ -38,6 +39,9 @@ export const useCartStore = create<CartState>((set) => ({
     } catch (err) {
       set((prevState) => ({ ...prevState, isLoading: false }));
     }
+  },
+  resetCounter: () => {
+    set((prevState) => ({ ...prevState, counter: 0 }));
   },
   // setOrderCart: (cart) => {
   //   const orderCart = { ...cart };

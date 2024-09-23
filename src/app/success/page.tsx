@@ -1,26 +1,28 @@
 "use client";
 
 import { useCartStore } from "@/hooks/useCartStore";
+import { getOrder } from "@/lib/mongoActions";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useEffect } from "react";
 import Confetti from "react-confetti";
 
 const SuccessPage = () => {
-  //   const searchParams = useSearchParams();
+  const searchParams = useSearchParams();
   const router = useRouter();
 
   //   const { orderCart } = useCartStore();
-  const { cart } = useCartStore();
+  // const { cart } = useCartStore();
 
   //   const orderId = orderCart._id;
-  const orderId = cart._id;
+  // const orderId = cart._id;
+  const orderId = searchParams.get("orderId");
 
   useEffect(() => {
     if (!orderId) return;
 
     const timer = setTimeout(() => {
       router.push("/orders/" + orderId);
-    }, 5000);
+    }, 3000);
 
     return () => {
       clearTimeout(timer);

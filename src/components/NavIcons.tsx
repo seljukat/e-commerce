@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import CartModal from "./CartModal";
 import { useWixClient } from "@/hooks/useWixClient";
 import Cookies from "js-cookie";
@@ -13,6 +13,9 @@ const NavIcons = () => {
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+
+  const cartModalRef = useRef(null);
+  const cartIconRef = useRef(null);
 
   const router = useRouter();
   // const pathName = usePathname();
@@ -70,6 +73,31 @@ const NavIcons = () => {
     getCart(wixClient);
   }, [wixClient, getCart]);
 
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        cartModalRef.current &&
+        !cartModalRef.current.contains(event.target as Node) &&
+        cartIconRef.current &&
+        !cartIconRef.current.contains(event.target as Node)
+      ) {
+        setIsCartOpen(false); // Close modal if clicked outside
+      }
+    };
+
+    // if (isCartOpen) {
+    document.addEventListener("mousedown", handleClickOutside);
+    // } else {
+    //   document.removeEventListener("mousedown", handleClickOutside);
+    // }
+
+    // Cleanup event listener on unmount
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+    // }, [isCartOpen]);
+  }, []);
+
   return (
     <div className="flex items-center gap-4 xl:gap-6 relative">
       <Image
@@ -99,6 +127,7 @@ const NavIcons = () => {
       <div
         className="relative cursor-pointer"
         onClick={() => setIsCartOpen((prev) => !prev)}
+        ref={cartIconRef}
       >
         <Image src="/cart.png" alt="" width={22} height={22} />
         <div className="absolute -top-4 -right-4 w-6 h-6 bg-redred rounded-full text-white text-sm flex items-center justify-center">
@@ -106,7 +135,14 @@ const NavIcons = () => {
         </div>
       </div>
 
-      {isCartOpen && <CartModal />}
+      {/* {isCartOpen && <CartModal />} */}
+      {isCartOpen ? (
+        <div ref={cartModalRef}>
+          <CartModal />
+        </div>
+      ) : (
+        <div></div>
+      )}
     </div>
   );
 };
