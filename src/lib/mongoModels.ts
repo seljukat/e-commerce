@@ -8,6 +8,9 @@ const orderSchema = new mongoose.Schema(
     orderId: {
       type: String,
     },
+    userId: {
+      type: String,
+    },
   },
   { timestamps: true }
 );

@@ -17,6 +17,9 @@ const NavIcons = () => {
   const cartModalRef = useRef(null);
   const cartIconRef = useRef(null);
 
+  const profileModalRef = useRef(null);
+  const profileIconRef = useRef(null);
+
   const router = useRouter();
   // const pathName = usePathname();
 
@@ -98,6 +101,31 @@ const NavIcons = () => {
     // }, [isCartOpen]);
   }, []);
 
+  useEffect(() => {
+    const handleProfileClickOutside = (event: MouseEvent) => {
+      if (
+        profileModalRef.current &&
+        !profileModalRef.current.contains(event.target as Node) &&
+        profileIconRef.current &&
+        !profileIconRef.current.contains(event.target as Node)
+      ) {
+        setIsProfileOpen(false); // Close modal if clicked outside
+      }
+    };
+
+    // if (isCartOpen) {
+    document.addEventListener("mousedown", handleProfileClickOutside);
+    // } else {
+    //   document.removeEventListener("mousedown", handleClickOutside);
+    // }
+
+    // Cleanup event listener on unmount
+    return () => {
+      document.removeEventListener("mousedown", handleProfileClickOutside);
+    };
+    // }, [isCartOpen]);
+  }, []);
+
   return (
     <div className="flex items-center gap-4 xl:gap-6 relative">
       <Image
@@ -107,11 +135,15 @@ const NavIcons = () => {
         height={22}
         className="cursor-pointer"
         onClick={handleProfile}
+        ref={profileIconRef}
         // onClick={login}
       />
       {isProfileOpen && (
-        <div className="absolute p-4 rounded-md top-12 left-0 bg-white text-sm shadow-[0_3px_10px_rgb(0,0,0,0.2)] z-20">
-          <Link href="/">Profile</Link>
+        <div
+          ref={profileModalRef}
+          className="absolute p-4 rounded-md top-12 left-0 bg-white text-sm shadow-[0_3px_10px_rgb(0,0,0,0.2)] z-20"
+        >
+          <Link href="/profile">Profile</Link>
           <div className="mt-2 cursor-pointer" onClick={handleLogout}>
             {isLoading ? "Logging out..." : "Logout"}
           </div>

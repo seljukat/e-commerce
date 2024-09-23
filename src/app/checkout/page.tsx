@@ -5,6 +5,7 @@ import { useCartStore } from "@/hooks/useCartStore";
 import { addOrder } from "@/lib/mongoActions";
 
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { members } from "@wix/members";
 
 const CheckoutPage = () => {
   const router = useRouter();
@@ -38,13 +39,25 @@ const CheckoutPage = () => {
       // params.set("orderId", cart._id!.toString());
       // replace(`${pathname}?${params.toString()}`);
 
+      const user = await wixClient.members.getCurrentMember({
+        fieldsets: [members.Set.FULL],
+      });
+
+      console.log(user);
+
       const order = { ...cart };
 
       await wixClient.currentCart.deleteCurrentCart();
 
       resetCounter();
 
-      await addOrder(order, order._id?.toString());
+      console.log(user.member?.contactId);
+
+      await addOrder(
+        order,
+        order._id?.toString(),
+        user.member?.contactId?.toString()
+      );
 
       router.push("/success/?orderId=" + order._id?.toString());
     } catch (err) {

@@ -4,13 +4,14 @@ import { Order } from "./mongoModels";
 import { connectToDb } from "./mongoUtils";
 import { revalidatePath } from "next/cache";
 
-export const addOrder = async (order, orderId) => {
+export const addOrder = async (order, orderId, userId) => {
   try {
     connectToDb();
 
     const newOrder = new Order({
       order: order,
       orderId: orderId,
+      userId: userId,
     });
 
     await newOrder.save();
@@ -25,10 +26,10 @@ export const addOrder = async (order, orderId) => {
   }
 };
 
-export const getOrders = async () => {
+export const getOrders = async (id) => {
   try {
     connectToDb();
-    const orders = await Order.find();
+    const orders = await Order.find({ userId: id });
     return orders;
   } catch (err) {
     console.log(err);
@@ -36,10 +37,10 @@ export const getOrders = async () => {
   }
 };
 
-export const getOrder = async (id) => {
+export const getOrder = async (id, userId) => {
   try {
     connectToDb();
-    const order = await Order.findOne({ orderId: id });
+    const order = await Order.findOne({ orderId: id, userId: userId });
     return order;
   } catch (err) {
     console.log(err);

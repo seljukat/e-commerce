@@ -4,14 +4,28 @@ import { getOrder } from "@/lib/mongoActions";
 import { media as wixMedia } from "@wix/sdk";
 // import { useCartStore } from "@/hooks/useCartStore";
 import Image from "next/image";
+import { wixClientServer } from "@/lib/wixClientServer";
+import { members } from "@wix/members";
 
 const OrderPage = async ({ params }: { params: { id: string } }) => {
   //   const { orderCart } = useCartStore();
   // const { cart } = useCartStore();
 
+  const wixClient = await wixClientServer();
+
   const id = params.id;
 
-  const orderRecord = await getOrder(id);
+  const user = await wixClient.members.getCurrentMember({
+    fieldsets: [members.Set.FULL],
+  });
+
+  // console.log(id);
+
+  const userId = user.member?.contactId?.toString();
+
+  const orderRecord = await getOrder(id, userId);
+
+  // console.log(orderRecord);
 
   const order = orderRecord.order[0];
 
