@@ -20,7 +20,6 @@ const ProductList = async ({
 
   let productQuery = wixClient.products
     // const productQuery = wixClient.products
-    // const res = await wixClient.products
 
     .queryProducts()
     .startsWith("name", searchParams?.name || "")
@@ -89,18 +88,6 @@ const ProductList = async ({
               {product.priceData?.formatted?.price?.replace(/([,.]00)/, "")}
             </span>
           </div>
-          {/* {product.additionalInfoSections && (
-            <div
-              className="text-sm text-gray-500"
-              dangerouslySetInnerHTML={{
-                __html: DOMPurify.sanitize(
-                  product.additionalInfoSections.find(
-                    (section: any) => section.title === "shortDesc"
-                  )?.description || ""
-                ),
-              }}
-            ></div>
-          )} */}
           <button className="rounded-2xl ring-1 ring-redred text-redred w-max py-2 px-4 text-xs hover:bg-redred hover:text-white">
             Add to cart
           </button>

@@ -30,21 +30,6 @@ const Add = ({
 
   const wixClient = useWixClient();
 
-  // const addItem = async () => {
-  //   const response = await wixClient.currentCart.addToCurrentCart({
-  //     lineItems: [
-  //       {
-  //         catalogReference: {
-  //           appId: process.env.NEXT_PUBLIC_WIX_APP_ID!,
-  //           catalogItemId: productId,
-  //           ...(variantId && { options: { variantId } }),
-  //         },
-  //         quantity: quantity,
-  //       },
-  //     ],
-  //   });
-  // };
-
   const { addItem, isLoading } = useCartStore();
 
   return (
@@ -59,7 +44,6 @@ const Add = ({
             >
               -
             </button>
-            {/* {quantity} */}
             {quantity > stockNumber ? stockNumber : quantity}
             <button
               className="cursor-pointer text-xl"

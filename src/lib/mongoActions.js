@@ -17,9 +17,6 @@ export const addOrder = async (order, orderId, userId) => {
     await newOrder.save();
 
     console.log("order saved to db");
-
-    // revalidatePath("/success/?orderId=" + order._id?.toString());
-    // revalidatePath(`/orders/${orderId}`);
   } catch (err) {
     console.log(err);
     return { error: "Something went wrong!" };

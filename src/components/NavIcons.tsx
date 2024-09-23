@@ -21,7 +21,6 @@ const NavIcons = () => {
   const profileIconRef = useRef(null);
 
   const router = useRouter();
-  // const pathName = usePathname();
 
   //   TEMPORARY
   // const isLoggedIn = false;
@@ -38,23 +37,6 @@ const NavIcons = () => {
     }
   };
 
-  // AUTH WITH WIX-MANAGED AUTH
-  // const wixClient = useWixClient();
-
-  // const login = async () => {
-  //   const loginRequestData = wixClient.auth.generateOAuthData(
-  //     "http://localhost:3000"
-  //     // "https://www.mysite.com/login",
-  //   );
-  //   console.log(loginRequestData);
-
-  //   localStorage.setItem("oAuthRedirectData", JSON.stringify(loginRequestData));
-
-  //   const { authUrl } = await wixClient.auth.getAuthUrl(loginRequestData);
-
-  //   window.location.href = authUrl;
-  // };
-
   const handleLogout = async () => {
     setIsLoading(true);
     Cookies.remove("refreshToken");
@@ -67,12 +49,6 @@ const NavIcons = () => {
   const { cart, counter, getCart } = useCartStore();
 
   useEffect(() => {
-    // const getCart = async () => {
-    //   const response = await wixClient.currentCart.getCurrentCart();
-
-    //   // console.log(response);
-    // };
-
     getCart(wixClient);
   }, [wixClient, getCart]);
 
@@ -88,13 +64,7 @@ const NavIcons = () => {
       }
     };
 
-    // if (isCartOpen) {
     document.addEventListener("mousedown", handleClickOutside);
-    // } else {
-    //   document.removeEventListener("mousedown", handleClickOutside);
-    // }
-
-    // Cleanup event listener on unmount
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
@@ -113,13 +83,8 @@ const NavIcons = () => {
       }
     };
 
-    // if (isCartOpen) {
     document.addEventListener("mousedown", handleProfileClickOutside);
-    // } else {
-    //   document.removeEventListener("mousedown", handleClickOutside);
-    // }
 
-    // Cleanup event listener on unmount
     return () => {
       document.removeEventListener("mousedown", handleProfileClickOutside);
     };

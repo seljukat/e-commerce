@@ -11,7 +11,6 @@ const Filter = () => {
     e: React.ChangeEvent<HTMLSelectElement | HTMLInputElement>
   ) => {
     const { name, value } = e.target;
-    // const params = new URLSearchParams(searchParams.toString());
     const params = new URLSearchParams(searchParams);
     params.set(name, value);
     replace(`${pathname}?${params.toString()}`);
@@ -44,23 +43,6 @@ const Filter = () => {
           className="text-xs rounded-2xl pl-2 w-24 ring-1 ring-gray-400"
           onChange={handleFilterChange}
         />
-        {/* Filter Categories */}
-        {/* <select
-          name="size"
-          id=""
-          className="py-2 px-4 rounded-2xl text-xs font-medium bg-[#EBEDED]"
-        >
-          <option>Size</option>
-          <option value="">Size</option>
-        </select>
-        <select
-          name="color"
-          id=""
-          className="py-2 px-4 rounded-2xl text-xs font-medium bg-[#EBEDED]"
-        >
-          <option>Color</option>
-          <option value="">Test</option>
-        </select> */}
         <select
           name="category"
           id=""

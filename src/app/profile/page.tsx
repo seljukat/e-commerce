@@ -21,8 +21,6 @@ const ProfilePage = async () => {
 
   //   console.log(orders);
 
-  //   console.log(orders[0].order);
-
   return (
     <div className="mt-12 flex flex-col md:flex-row gap-24 md:h-[calc(100vh-180px)] items-center px-4 md:px-8 lg:px-16 xl:px-32 2xl:px-64">
       <div className="w-full md:w-1/2">
@@ -82,7 +80,6 @@ const ProfilePage = async () => {
         >
           {orders.map((order) => {
             // console.log(order.order[0]);
-            // console.log(format(order.order[0]._createdDate));
             return (
               <Link
                 href={`/orders/${order.orderId}`}
@@ -97,7 +94,6 @@ const ProfilePage = async () => {
                 </span>
                 {order.order[0]._createdDate && (
                   <span className="w-1/4">
-                    {/* {format(order.order[0]._createdDate)} */}
                     {format(order.order[0]._createdDate)}
                   </span>
                 )}

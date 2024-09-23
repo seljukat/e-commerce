@@ -4,45 +4,21 @@ import { useWixClient } from "@/hooks/useWixClient";
 import { useCartStore } from "@/hooks/useCartStore";
 import { addOrder } from "@/lib/mongoActions";
 
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { members } from "@wix/members";
 
 import { media as wixMedia } from "@wix/sdk";
-// import { useCartStore } from "@/hooks/useCartStore";
 import Image from "next/image";
 
 const CheckoutPage = () => {
   const router = useRouter();
 
-  // const pathname = usePathname();
-  // const searchParams = useSearchParams();
-  // const { replace } = useRouter();
-
   const wixClient = useWixClient();
 
-  // const { cart, setOrderCart, removeItem } = useCartStore();
   const { cart, resetCounter } = useCartStore();
 
   const handlePayment = async () => {
     try {
-      // setOrderCart(cart);
-      // deleteCart(wixClient);
-      // cart.lineItems?.map((item) => {
-      //   console.log(item._id);
-      //   removeItem(wixClient, item._id!);
-      // });
-      // const removePromises = cart.lineItems?.map((item) =>
-      //   removeItem(wixClient, item._id!)
-      // );
-
-      // if (removePromises) {
-      //   await Promise.all(removePromises);
-      // }
-
-      // const params = new URLSearchParams(searchParams);
-      // params.set("orderId", cart._id!.toString());
-      // replace(`${pathname}?${params.toString()}`);
-
       const user = await wixClient.members.getCurrentMember({
         fieldsets: [members.Set.FULL],
       });
@@ -161,7 +137,6 @@ const CheckoutPage = () => {
       {/* <div> */}
       <div className="flex">
         <div className="w-fit h-fit p-4 rounded-md border-8 border-gray-100 bg-white flex flex-col gap-6">
-          {/* {!orderCart.lineItems ? ( */}
           {!cart.lineItems ? (
             <div>Cart is empty</div>
           ) : (
@@ -170,7 +145,6 @@ const CheckoutPage = () => {
               {/* LIST */}
               <div className="flex flex-col gap-8">
                 {/* ITEM */}
-                {/* {orderCart.lineItems.map((item) => ( */}
                 {cart.lineItems.map((item) => (
                   <div className="flex gap-4" key={item._id}>
                     {item.image && (
@@ -215,13 +189,6 @@ const CheckoutPage = () => {
                         <span className="text-gray-500">
                           Qty. {item.quantity}
                         </span>
-                        {/* <span
-                      className="text-blue-500"
-                      style={{ cursor: isLoading ? "not-allowed" : "pointer" }}
-                      onClick={() => removeItem(wixClient, item._id!)}
-                    >
-                      Remove
-                    </span> */}
                       </div>
                     </div>
                   </div>
@@ -231,30 +198,16 @@ const CheckoutPage = () => {
               <div>
                 <div className="flex items-center justify-between font-semibold">
                   <span className="">Subtotal</span>
-                  {/* <span className="">{orderCart.subtotal.formattedAmount}</span> */}
                   <span className="">{cart.subtotal.formattedAmount}</span>
                 </div>
                 <p className="text-gray-500 text-sm mt-2 mb-4">
                   Shipping and taxes calculated at checkout.
                 </p>
-                {/* <div className="flex justify-between text-sm">
-              <button className="rounded-md py-3 px-4 ring-1 ring-gray-300">
-                View cart
-              </button>
-              <button
-                className="rounded-md py-3 px-4 bg-black text-white disabled:cursor-not-allowed disabled:opacity-75"
-                disabled={isLoading}
-                onClick={handleCheckout}
-              >
-                Checkout
-              </button>
-            </div> */}
               </div>
             </>
           )}
         </div>
       </div>
-      {/* </div> */}
     </div>
   );
 };

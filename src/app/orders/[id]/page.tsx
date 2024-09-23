@@ -1,16 +1,10 @@
-// "use client";
-
 import { getOrder } from "@/lib/mongoActions";
 import { media as wixMedia } from "@wix/sdk";
-// import { useCartStore } from "@/hooks/useCartStore";
 import Image from "next/image";
 import { wixClientServer } from "@/lib/wixClientServer";
 import { members } from "@wix/members";
 
 const OrderPage = async ({ params }: { params: { id: string } }) => {
-  //   const { orderCart } = useCartStore();
-  // const { cart } = useCartStore();
-
   const wixClient = await wixClientServer();
 
   const id = params.id;
@@ -31,15 +25,12 @@ const OrderPage = async ({ params }: { params: { id: string } }) => {
 
   // console.log(order);
 
-  //   console.log(orderCart);
-
   return (
     // <div className="w-max absolute p-4 rounded-md shadow-[0_3px_10px_rgb(0,0,0,0.2)] bg-white top-12 right-0 flex flex-col gap-6 z-20">
     // <div>
     // <div className="w-fit h-[calc(100vh-80px)] p-4 rounded-md shadow-[0_3px_10px_rgb(0,0,0,0.2)] bg-white top-12 right-0 flex flex-col gap-6 z-20">
     <div className="flex items-center justify-center">
       <div className="w-fit h-fit p-4 rounded-md border-8 border-gray-100 bg-white flex flex-col gap-6">
-        {/* {!orderCart.lineItems ? ( */}
         {!order.lineItems ? (
           <div>Cart is empty</div>
         ) : (
@@ -48,7 +39,6 @@ const OrderPage = async ({ params }: { params: { id: string } }) => {
             {/* LIST */}
             <div className="flex flex-col gap-8">
               {/* ITEM */}
-              {/* {orderCart.lineItems.map((item) => ( */}
               {order.lineItems.map((item) => (
                 <div className="flex gap-4" key={item._id}>
                   {item.image && (
@@ -93,13 +83,6 @@ const OrderPage = async ({ params }: { params: { id: string } }) => {
                       <span className="text-gray-500">
                         Qty. {item.quantity}
                       </span>
-                      {/* <span
-                      className="text-blue-500"
-                      style={{ cursor: isLoading ? "not-allowed" : "pointer" }}
-                      onClick={() => removeItem(wixClient, item._id!)}
-                    >
-                      Remove
-                    </span> */}
                     </div>
                   </div>
                 </div>
@@ -109,24 +92,11 @@ const OrderPage = async ({ params }: { params: { id: string } }) => {
             <div>
               <div className="flex items-center justify-between font-semibold">
                 <span className="">Subtotal</span>
-                {/* <span className="">{orderCart.subtotal.formattedAmount}</span> */}
                 <span className="">{order.subtotal.formattedAmount}</span>
               </div>
               <p className="text-gray-500 text-sm mt-2 mb-4">
                 Shipping and taxes calculated at checkout.
               </p>
-              {/* <div className="flex justify-between text-sm">
-              <button className="rounded-md py-3 px-4 ring-1 ring-gray-300">
-                View cart
-              </button>
-              <button
-                className="rounded-md py-3 px-4 bg-black text-white disabled:cursor-not-allowed disabled:opacity-75"
-                disabled={isLoading}
-                onClick={handleCheckout}
-              >
-                Checkout
-              </button>
-            </div> */}
             </div>
           </>
         )}
