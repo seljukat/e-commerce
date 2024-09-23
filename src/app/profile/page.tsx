@@ -74,7 +74,12 @@ const ProfilePage = async () => {
       {/* <div>Orders</div> */}
       <div className="w-full md:w-2/3">
         <h1 className="text-2xl">Orders</h1>
-        <div className="mt-12 flex flex-col">
+        {/* <div className="mt-12 flex flex-col"> */}
+        <div
+          className={`mt-12 flex flex-col ${
+            orders.length > 6 ? "h-[500px] overflow-auto" : "h-fit"
+          }`}
+        >
           {orders.map((order) => {
             // console.log(order.order[0]);
             // console.log(format(order.order[0]._createdDate));

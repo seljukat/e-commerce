@@ -34,7 +34,13 @@ const ViewCartPage = () => {
           <>
             <h2 className="text-xl">Shopping Cart</h2>
             {/* LIST */}
-            <div className="flex flex-col gap-8 h-64 overflow-auto">
+            {/* <div className="flex flex-col gap-8 h-64 overflow-auto"> */}
+            {/* <div
+              className={`flex flex-col gap-8 ${
+                cart.lineItems.length > 2 ? "h-64 overflow-auto" : "h-fit"
+              }`}
+            > */}
+            <div className="flex flex-col gap-8 h-fit">
               {/* ITEM */}
               {cart.lineItems.map((item) => (
                 <div className="flex gap-4" key={item._id}>
