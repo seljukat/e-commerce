@@ -73,7 +73,7 @@ const ProfilePage = async () => {
       </div>
       {/* <div>Orders</div> */}
       <div className="w-full md:w-2/3">
-        <h1 className="text-2xl">Orders</h1>
+        <h1 className="text-2xl">All Orders</h1>
         {/* <div className="mt-12 flex flex-col"> */}
         <div
           className={`mt-12 flex flex-col ${
