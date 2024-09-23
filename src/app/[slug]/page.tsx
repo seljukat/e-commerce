@@ -1,8 +1,11 @@
 import Add from "@/components/Add";
 import CustomizeProducts from "@/components/CustomizeProducts";
 import ProductImages from "@/components/ProductImages";
+import Reviews from "@/components/Reviews";
+import DOMPurify from "isomorphic-dompurify";
 import { wixClientServer } from "@/lib/wixClientServer";
 import { notFound } from "next/navigation";
+import { Suspense } from "react";
 
 const SinglePage = async ({ params }: { params: { slug: string } }) => {
   // console.log(params.slug);
@@ -66,10 +69,28 @@ const SinglePage = async ({ params }: { params: { slug: string } }) => {
         <div className="h-[2px] bg-gray-100" />
         {product.additionalInfoSections?.map((section: any) => (
           <div className="text-sm" key={section.title}>
-            <h4 className="font-medium mb-4">{section.title}</h4>
-            <p>{section.description}</p>
+            <h4 className="font-medium mb-4">
+              {section.title === "shortDesc"
+                ? "PRODUCT DESCRIPTION"
+                : section.title}
+            </h4>
+            {section.title === "shortDesc" ? (
+              <p
+                dangerouslySetInnerHTML={{
+                  __html: DOMPurify.sanitize(section.description),
+                }}
+              ></p>
+            ) : (
+              <p>{section.description}</p>
+            )}
           </div>
         ))}
+        <div className="h-[2px] bg-gray-100" />
+        {/* REVIEWS */}
+        <h1 className="text-2xl">User Reviews</h1>
+        <Suspense fallback="Loading...">
+          <Reviews productId={product._id!} />
+        </Suspense>
       </div>
     </div>
   );

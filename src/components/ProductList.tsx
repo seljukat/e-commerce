@@ -89,7 +89,7 @@ const ProductList = async ({
               {product.priceData?.formatted?.price?.replace(/([,.]00)/, "")}
             </span>
           </div>
-          {product.additionalInfoSections && (
+          {/* {product.additionalInfoSections && (
             <div
               className="text-sm text-gray-500"
               dangerouslySetInnerHTML={{
@@ -100,7 +100,7 @@ const ProductList = async ({
                 ),
               }}
             ></div>
-          )}
+          )} */}
           <button className="rounded-2xl ring-1 ring-redred text-redred w-max py-2 px-4 text-xs hover:bg-redred hover:text-white">
             Add to cart
           </button>
